@@ -1,8 +1,8 @@
 # User stories, Use Cases, and Component Specification
 
 ### User stories
-* Nels is a graduate student at the University of Washington who uses multiple particle tracking (MPT) to study the changes in particle diffusion in the extracellular space of brain tissu ein neurodegenerative diseases. He wants to identify if there are any sources of error in his MPT data and which ones need to be reanalyzed or reprocessed in an efficient manner. He needs the data to be separated by estimated quality and assess trends and differences through visual and statistical methods, and he desires for the software to be interactive as a web app and use machine learning to flag poor quality data in the future. He is highly technical.
-
+* Nels is a graduate student at the University of Washington who uses multiple particle tracking (MPT) to study the changes in particle diffusion in the extracellular space of brain tissue in neurodegenerative diseases. He wants to identify if there are any sources of error in his MPT data and which ones need to be reanalyzed or reprocessed in an efficient manner. He needs the data to be separated by estimated quality and assess trends and differences through visual and statistical methods, and he desires for the software to be interactive as a web app and use machine learning to flag poor quality data in the future. He is highly technical.
+* Dr. Nance is the PI of Nels's lab. She wants to be able to assist her mentees in assessing problems in their MPT data quickly. She needs to be able to run the data quickly and have a comprehendable readout. 
 
 ### Use cases
 * Separate data by estimated quality.
