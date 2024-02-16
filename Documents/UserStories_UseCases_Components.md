@@ -16,6 +16,30 @@
 * Provide easily digestable readouts for users.
 
 
-### Component specification
+### Component specification 
 
+* Data Quality Analyzer
+	* This software component sorts data based on estimated quality, provides some visual and statistical analysis, and flags poor data that needs revision.
+	* Inputs: `.csv` MPT feature data files; `.json` Estimated data quality parameters
+	* Outputs: Quality sorted data with color code: Low - red; Medium - yellow; High - green
+	* Connections: Feeds quality classification to MPT Feature Data Statistical Analyzer
+	* Side Effects: None
+* MPT Feature Data Statistical Analyzer
+	* This software component provides descriptive statistical analysis on the MPT features data.
+	* Input: `.csv` MPT feature data file(s)
+	* Outputs: Descriptive statistics (mean, median, etc.)
+	* Connections: This component will connect to the Data Quality Analyzer to throw warnings of low quality data (optional for user). It will also pass the descriptive statistics to the MPT Feature Data Inferential Analyzer.
+	* Side Effects:None
+* MPT Feature Data Inferential Analyzer
+	* This software component provides inferential statistical analysis on the MPT features data.
+	* Inputs: `.csv` MPT feature data file(s)
+	* Outputs: inferential output; p-value; regression value
+	* Connections: This component takes descriptive statistics from MPR Feature Data Statistical Analyzer
+	* Side Effects: None
+* One line Interface
+	* This software will run the data analysis in a single line
+	* Inputs: `.csv` MPT feature data files; `.json` Estimated data quality parameters; desired statistics
+	* Outputs: Statistical results; possible flags of data
+	* Connections: This connects to and utilizes each of the analyzers
+	* Side Effects: extra analysis not output
 
