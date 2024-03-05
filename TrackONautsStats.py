@@ -42,38 +42,26 @@ def feature_descriptive_statistics(dataframe, features):
         # need to add method to remove Unnamed:0 and ID
         for feature in features:
             feat_stats = []
-            feat_mean = dataframe[feature].mean()
-            feat_stats.append(feat_mean)
-            feat_median = dataframe[feature].median()
-            feat_stats.append(feat_median)
-            feat_max = dataframe[feature].max()
-            feat_stats.append(feat_max)
-            feat_min = dataframe[feature].min()
-            feat_stats.append(feat_min)
+            feat_mean = dataframe[feature].mean();feat_stats.append(feat_mean)
+            feat_median = dataframe[feature].median();feat_stats.append(feat_median)
+            feat_max = dataframe[feature].max();feat_stats.append(feat_max)
+            feat_min = dataframe[feature].min();feat_stats.append(feat_min)
             #feat_quantile1, feat_quantile2 = dataframe[feature].quantile([0.25, 0.75])
             #feat_stats.append(feat_quantile1,feat_quantile2)
-            feat_var = dataframe[feature].var()
-            feat_stats.append(feat_var)
-            feat_std = dataframe[feature].std()
-            feat_stats.append(feat_std)
+            feat_var = dataframe[feature].var();feat_stats.append(feat_var)
+            feat_std = dataframe[feature].std();feat_stats.append(feat_std)
             feat_descriptive_statistics.append(feat_stats)
     else:
         for feature in features:
             feat_stats = []
-            feat_mean = dataframe[feature].mean()
-            feat_stats.append(feat_mean)
-            feat_median = dataframe[feature].median()
-            feat_stats.append(feat_median)
-            feat_max = dataframe[feature].max()
-            feat_stats.append(feat_max)
-            feat_min = dataframe[feature].min()
-            feat_stats.append(feat_min)
+            feat_mean = dataframe[feature].mean();feat_stats.append(feat_mean)
+            feat_median = dataframe[feature].median();feat_stats.append(feat_median)
+            feat_max = dataframe[feature].max();feat_stats.append(feat_max)
+            feat_min = dataframe[feature].min();feat_stats.append(feat_min)
             #feat_quantiles = dataframe[feature].quantile([0.25, 0.75])
             #feat_stats.append(feat_quantiles)
-            feat_var = dataframe[feature].var()
-            feat_stats.append(feat_var)
-            feat_std = dataframe[feature].std()
-            feat_stats.append(feat_std)
+            feat_var = dataframe[feature].var();feat_stats.append(feat_var)
+            feat_std = dataframe[feature].std();feat_stats.append(feat_std)
             feat_descriptive_statistics.append(feat_stats)
     stat_names = ["mean", "median", "maximum", "minimum",
                   "variance", "standard deviation"] 
@@ -94,4 +82,14 @@ For running statistics on all features use "all_features".
         dfs_descriptive_statistics[key] = feature_descriptive_statistics(dataframes[key],features)
     return dfs_descriptive_statistics
 
+def feature_outliers(dataframe, features, n_by_std):
 
+    feature_outliers_dict = {}
+    for feature in features:
+        feat_mean = dataframe[feature].mean()
+        feat_std = dataframe[feature].std()
+        outliers_above = [row_i[feature] for index, row_i in dummyFeatures_df1.iterrows() if row_i[feature] >= feat_mean+(n_by_std*feat_std)]
+        outliers_below = [row_i[feature] for index, row_i in dummyFeatures_df1.iterrows() if row_i[feature] <= feat_mean-(n_by_std*feat_std)]
+        feature_outliers_dict[feature+" outliers above"] = outliers_above
+        feature_outliers_dict[feature+" outliers below"] = outliers_below
+    return feature_outliers_dict
