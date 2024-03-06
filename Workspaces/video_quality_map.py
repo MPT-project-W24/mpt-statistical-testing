@@ -10,6 +10,8 @@ import numpy as np
 
 def merge_data(feature_path, msd_path, json_path):
     ''' Merge Data Quality & MSD Data into ONE:
+    [REQUIRED TO RUN BEFORE ADVANCING TO PLOT]
+    
     INPUTs:
         'feature_path' - path to directory containing feature data files
         'msd_path' - path to directory containing msd files
@@ -64,7 +66,7 @@ def merge_data(feature_path, msd_path, json_path):
     feature_files = [f for f in listdir(feature_path) if isfile(join(feature_path, f)) and '.csv' in f and 'P' in f]
 
     # Apply put_together:
-    data_quality = put_together(json_data,feature_list,feature_path,feature_files)
+    quality_data = put_together(json_data,feature_list,feature_path,feature_files)
 
     # Import msd file:
     msd_files = [f for f in listdir(msd_path) if isfile(join(msd_path, f)) and '.csv' in f and 'P' in f]
@@ -96,19 +98,22 @@ def merge_data(feature_path, msd_path, json_path):
     # Create an empty dictionary
     df = {}
     for code in vid_codes:
-        df[code] = pd.merge(msd_data['msd_' + code], data_quality['features_' + code].drop(columns=['X','Y']), on='Track_ID', how='left')                        
+        df[code] = pd.merge(msd_data['msd_' + code], quality_data['features_' + code].drop(columns=['X','Y']), on='Track_ID', how='left')                        
+    return df, msd_data, quality_data
 
-    return df, msd_data, data_quality
 
-
-def trajectory_plot(merge_df, vid_code):
+def trajectory_plot(merge_df, vid_code, save = None):
     '''
     Plot TRAJECTORIES of ALL PARTICLES in ONE VIDEO
     
     INPUTs:
         'merge_df' - merge data from previous function
         'vid_code' - code name of the video of interest (ex: 'P14_40nm_s1_v3')
-
+        'save' (optional)
+            - if None: not saving the plot as image
+            - if not None (for example, 0) : saving the plot as .png image
+    OUTPUT:
+        A plot with all trajectories of all particles color-coded based on qualities.
     
     '''
     df = merge_df[vid_code]
@@ -133,25 +138,32 @@ def trajectory_plot(merge_df, vid_code):
     plt.legend()
     plt.title('Trajectories of Particles in Video ' + vid_code)
     plt.show()
-    # plt.savefig('trajectories_of_' + vid_code + '.png')
+
+    if save != None:
+        plt.savefig('trajectories_of_' + vid_code + '.png')
 
 
 
 # Zoom into the section of interested
 
-def zoom_trajectory_plot(data, vid_code, x1, x2, y1, y2):
+def zoom_trajectory_plot(merge_df, vid_code, x1, x2, y1, y2, save = None):
 
     '''
     Plot TRAJECTORIES of ALL PARTICLES in ONE VIDEO
     
     INPUTs:
-    'merge_data' - 
-    'vid_code' - code name of the video of interest (ex: 'P14_40nm_s1_v3')
-    'x1,x2,y1,y2' - specify the area that you want to look at (x1<x2, y1<y2)
+        'merge_df' - merge data from previous function
+        'vid_code' - code name of the video of interest (ex: 'P14_40nm_s1_v3')
+        'x1,x2,y1,y2' - specify the area that you want to look at (x1<x2, y1<y2)
+        'save' (optional)
+                - if None: not saving the plot as image
+                - if not None (for example, 0) : saving the plot as .png image
+    OUTPUT:
+        A plot with all trajectories of all particles color-coded based on qualities.
         
     '''
 
-    df = data[vid_code]
+    df = merge_df[vid_code]
     
     # Separate data based on Category
     low_Y = df[df['Category'] == 'low']
@@ -189,12 +201,28 @@ def zoom_trajectory_plot(data, vid_code, x1, x2, y1, y2):
     plt.grid(True)
     
     plt.show()
-    # plt.savefig('zoom_trajectories_of_' + vid_code + '.png')
+
+    if save != None:
+        plt.savefig('zoom_trajectories_of_' + vid_code + '.png')
 
 
 
-def distruibution_by_age(feature_path, msd_path, quality_data):
+def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
+    '''
+    Plot MEAN QUALITY SCORE BY AGE
     
+    INPUTs:
+        'feature_path' - path to directory containing feature data files
+        'msd_path' - path to directory containing msd files
+        'quality_data' - data output from the first function
+        'save' (optional)
+                - if None: not saving the plot as image
+                - if not None (for example, 0) : saving the plot as .png image
+    OUTPUT:
+        A swarmplot.
+        
+    '''
+
     
     # Extracting VIDEO CODES:
     
@@ -252,4 +280,6 @@ def distruibution_by_age(feature_path, msd_path, quality_data):
     plt.title('Mean Quality Score Distribution between Different Ages')
     plt.grid(True)
     plt.show()
-    # plt.savefig('zoom_trajectories_of_' + vid_code + '.png')
+
+    if save != None:
+        plt.savefig('Quality_score_distribution_by_age.png')
