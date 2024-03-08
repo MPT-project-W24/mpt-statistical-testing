@@ -1,26 +1,57 @@
 import pandas as pd
 import numpy as np
-import scipy as sc
-import sklearn as skl
+import scipy as sp
 
-# Pairwise Pearson Correlation functions
+# pairwise Pearson correlation functions
 def corr_rowi_rowj(row_i, row_j):
-    """Pearson correlation between row_i and row_j"""
+    """
+    Pearson correlation between row_i and row_j
+
+    Args: 
+        row_i, row_j : pd.Series
+            row of data from dataframe, represented as a pandas series
+
+    Output: 
+        corr_ij : float
+            Pearson correlation of row_i to row_j
+    """
     if row_i.any() == False or row_j.any() == False:
-        raise Exception("A row is zeros and does not work with .corr")
+        raise Exception("A row is all zeros and does not work with .corr")
     corr_ij = row_i.corr(row_j)
     return corr_ij
     
 
 def corr_rowi_vs_all(row_i, dataframe):
-    """Vector of Pearson correlations for each row against row_i"""
+    """
+    Vector of Pearson correlations for each row against row_i
+
+    Args: 
+        row_i : pd.Series
+            row of data from dataframe, represented as a pandas series
+        dataframe : pd.DataFrame
+            dataframe containing data of interest
+    
+    Output:
+        corr_to_i : list
+            list of Pearson correlation values stored as float values
+    """
     corr_to_i = []
     for j, row_j in dataframe.iterrows():
         corr_to_i.append(corr_rowi_rowj(row_i,row_j))
     return corr_to_i
      
 def pairwise_correlation(dataframe):
-    """Pairwise Pearson correlation of all rows, plus conversion back to dataframe""" 
+    """
+    Pairwise Pearson correlation of all rows, plus conversion back to dataframe
+
+    Args: 
+        dataframe : pd.DataFrame
+            dataframe containing data of interest
+    
+    Output: 
+        corr_df = pd.DataFrame
+            pandas dataframe containing all pairwise Pearson correlation values
+    """ 
     corr_all = []
     for i, row_i in dataframe.iterrows():
         corr_all.append( corr_rowi_vs_all(row_i, dataframe) )
@@ -30,11 +61,23 @@ def pairwise_correlation(dataframe):
         columns=dataframe.index)
     return corr_df
 
+# Dataframe descriptive statistics functions
 def feature_descriptive_statistics(dataframe, features):
     """
     This function pulls the descriptive statistics from given features. Input the features as a string(s).
     Can use "all_features" to run descriptive statistics on all features without needing to make a long list of names.
     Quantiles are disabled automatically. To use, make separate variables for each desired quantile and append.
+
+    Args:
+        dataframe : pd.DataFrame
+            dataframe containing data of interest
+        features : list of str, or str
+            list of strings which are the features stored as column names in the data frame.
+            can use "all_features" to run all feature columns
+    
+    Output: 
+        feat_descriptive_statistics_df : pd.DataFrame
+            Pandas dataframe of the descriptive statistics as columns and features as rows
     """
     feat_descriptive_statistics = []
     if features == "all_features":
@@ -72,24 +115,102 @@ def feature_descriptive_statistics(dataframe, features):
     return feat_descriptive_statistics_df
 
 def multi_df_feat_descriptive_statistics(dataframes, features):
-"""
-This function takes an input dictionary of dataframes and a list of features to automatically 
-run multiple dataframes through the feature descriptive statistics, returning a dictionary with the same keys. 
-For running statistics on all features use "all_features".
-"""
+    """
+    This function takes an input dictionary of dataframes and 
+    a list of features to automatically run multiple dataframes through
+    the feature descriptive statistics, returning a dictionary with the same keys. 
+    For running statistics on all features use "all_features".
+
+    Args:
+        dataframes : dict
+            dictionary of dataframes containing data of interest
+        features : list of str, or str
+            list of strings which are the features stored as column names in the data frame.
+            can use "all_features" to run all feature columns
+
+    Output: 
+        dfs_descriptive_statistics : dict
+            dictionary of dataframes containing descriptive statistics of specified features
+            utilizes the same keys as the input dataframe dictionary
+    """
     dfs_descriptive_statistics = {}
     for key in dataframes:
         dfs_descriptive_statistics[key] = feature_descriptive_statistics(dataframes[key],features)
     return dfs_descriptive_statistics
 
-def feature_outliers(dataframe, features, n_by_std):
+# Feature Outliers function
+def feature_outliers(dataframe, features, outlier_method):
+    """
+    Rapid calculation the outliers of specified feature data within a dataframe.
+    Has the options of STD multiplier and IQR for selecting an outlier selection parameter.
 
-    feature_outliers_dict = {}
-    for feature in features:
-        feat_mean = dataframe[feature].mean()
-        feat_std = dataframe[feature].std()
-        outliers_above = [row_i[feature] for index, row_i in dummyFeatures_df1.iterrows() if row_i[feature] >= feat_mean+(n_by_std*feat_std)]
-        outliers_below = [row_i[feature] for index, row_i in dummyFeatures_df1.iterrows() if row_i[feature] <= feat_mean-(n_by_std*feat_std)]
-        feature_outliers_dict[feature+" outliers above"] = outliers_above
-        feature_outliers_dict[feature+" outliers below"] = outliers_below
+    Args:
+        dataframe : pd.DataFrame
+            dataframe containing data of interest
+        features : list of str, or str
+            list of strings which are the features stored as column names in the data frame.
+            Can use "all_features" to run all features.
+        outlier_method : str
+            either "STD multiplier" or "IQR" to specify method of determining outlier cutoff.
+            "STD multiplier" will prompt user to enter a float value to use as a multiplier
+            of the standard deviation.
+
+    Output:
+        feature_outliers_dict : dict
+            dictionary containing lists of found outliers above and below selected cutoff for
+            specified features
+    """
+    if features == "all_features":
+        features = dataframe.columns.tolist()
+        if outlier_method == "STD multiplier":
+            n_by_std = float(input("Enter the multiplier you want to use:"))
+            feature_outliers_dict = {}
+            for feature in features:
+                feat_mean = dataframe[feature].mean()
+                feat_std = dataframe[feature].std()
+                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_mean+(n_by_std*feat_std)]
+                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_mean-(n_by_std*feat_std)]
+                feature_outliers_dict[feature+" outliers above"] = outliers_above
+                feature_outliers_dict[feature+" outliers below"] = outliers_below
+    
+        elif outlier_method == "IQR":
+            feature_outliers_dict = {}
+            for feature in features:
+                feat_iqr = sp.stats.iqr(dataframe[feature])
+                feat_median = dataframe[feature].median()
+                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_median+(1.5*feat_iqr)]
+                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_median-(1.5*feat_iqr)]
+                feature_outliers_dict[feature+" outliers above"] = outliers_above
+                feature_outliers_dict[feature+" outliers below"] = outliers_below
+    
+    else:
+        if outlier_method == "STD multiplier":
+            n_by_std = float(input("Enter the multiplier you want to use:"))
+            feature_outliers_dict = {}
+            for feature in features:
+                feat_mean = dataframe[feature].mean()
+                feat_std = dataframe[feature].std()
+                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_mean+(n_by_std*feat_std)]
+                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_mean-(n_by_std*feat_std)]
+                feature_outliers_dict[feature+" outliers above"] = outliers_above
+                feature_outliers_dict[feature+" outliers below"] = outliers_below
+    
+        elif outlier_method == "IQR":
+            feature_outliers_dict = {}
+            for feature in features:
+                feat_iqr = sp.stats.iqr(dataframe[feature])
+                feat_median = dataframe[feature].median()
+                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_median+(1.5*feat_iqr)]
+                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_median-(1.5*feat_iqr)]
+                feature_outliers_dict[feature+" outliers above"] = outliers_above
+                feature_outliers_dict[feature+" outliers below"] = outliers_below
     return feature_outliers_dict
+
+# clustering function(s)
+def feature_clustering(dataframe, features):
+    """
+    Simple clustering method to provide a tool in determining whether
+    certain features have high contribution to data quality.
+
+    To be implemented in V2
+    """
