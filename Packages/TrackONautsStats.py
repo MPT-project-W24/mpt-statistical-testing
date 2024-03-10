@@ -63,7 +63,7 @@ def pairwise_correlation(dataframe):
     return corr_df
 
 # Dataframe descriptive statistics functions
-f feature_descriptive_statistics(dataframe, features):
+def feature_descriptive_statistics(dataframe, features):
     """
     This function pulls the descriptive statistics from given features. Input the features as a list of str.
     Can use "all_features" to run descriptive statistics on all features without needing to make a long list of names.

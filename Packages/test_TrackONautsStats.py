@@ -9,10 +9,10 @@ import scipy as sp
 
 import TrackONautsStats
 
+df_exp1 = pd.DataFrame([[-1,0,1],[1,0,-1],[0.5,0,0.5]], index=["A","B","C"])
+df_exp2 = pd.DataFrame([[1,0,1],[-1,0,-1],[0,0,0]], index=["A","B","C"])
 class TestCorrelation(unittest.TestCase):
-    df_exp1 = pd.DataFrame([[-1,0,1],[1,0,-1],[0.5,0,0.5]], index=["A","B","C"])
-    df_exp2 = pd.DataFrame([[1,0,1],[-1,0,-1],[0,0,0]], index=["A","B","C"])
-    
+       
     def test_corr_rowi_rowj_right_type(self):
         computed_correlation = TrackONautsStats.corr_rowi_rowj(df_exp1.iloc[0],df_exp1.iloc[2])
         assert isinstance(computed_correlation,(int,float)), "Computed correlation is neither int nor float, it is %s" % type(computed_correlation)
@@ -53,15 +53,13 @@ class TestCorrelation(unittest.TestCase):
 
     def test_pairwise_correlation_right_shape(self):
         computed_correlation = TrackONautsStats.pairwise_correlation(df_exp1)
-        assert computed_correlation.shape == df_exp1.shape, "Function resulted in different sized dataframe
+        assert computed_correlation.shape == df_exp1.shape, "Function resulted in different sized dataframe"
 
-
+dummy_df1 = pd.DataFrame([[-1,0,1,0,0],[1,0,-1,0,1],[0.5,0.5,0.5,0,7]], columns=["A","B","C","D","E"])
+dummy_df2 = pd.DataFrame([[1,0,1,2,1],[-1,0,-1,0,2],[0,0,0,1,30]], columns=["A","B","C","D","E"])
+dummy_dict = {"dummy_df1": dummy_df1, "dummy_df2": dummy_df2}
 class TestStatistics(unittest.TestCase):
-    dummy_df1 = pd.DataFrame([[-1,0,1,0,0],[1,0,-1,0,1],[0.5,0.5,0.5,0,7]], columns=["A","B","C","D","E"])
-    dummy_df2 = pd.DataFrame([[1,0,1,2,1],[-1,0,-1,0,2],[0,0,0,1,30]], columns=["A","B","C","D","E"])
-    dummy_dict = {"dummy_df1": dummy_df1, "dummy_df2": dummy_df2}
-    dummy_list = ["dummy_df1", "dummy_df2"]
-    
+        
     def test_feature_descriptive_statistics_output1(self):
         stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1,["A"])
         self.assertTrue(isinstance(stats_df,pd.DataFrame))
