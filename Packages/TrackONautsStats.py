@@ -42,7 +42,8 @@ def corr_rowi_vs_all(row_i, dataframe):
      
 def pairwise_correlation(dataframe):
     """
-    Pairwise Pearson correlation of all rows, plus conversion back to dataframe
+    Pairwise Pearson correlation of all rows, plus conversion back to dataframe.
+    If issues arise, might need to transpose dataframe.
 
     Args: 
         dataframe : pd.DataFrame
@@ -62,11 +63,12 @@ def pairwise_correlation(dataframe):
     return corr_df
 
 # Dataframe descriptive statistics functions
-def feature_descriptive_statistics(dataframe, features):
+f feature_descriptive_statistics(dataframe, features):
     """
-    This function pulls the descriptive statistics from given features. Input the features as a string(s).
+    This function pulls the descriptive statistics from given features. Input the features as a list of str.
     Can use "all_features" to run descriptive statistics on all features without needing to make a long list of names.
     Quantiles are disabled automatically. To use, make separate variables for each desired quantile and append.
+
 
     Args:
         dataframe : pd.DataFrame
@@ -117,7 +119,7 @@ def feature_descriptive_statistics(dataframe, features):
 def multi_df_feat_descriptive_statistics(dataframes, features):
     """
     This function takes an input dictionary of dataframes and 
-    a list of features to automatically run multiple dataframes through
+    a list of features str to automatically run multiple dataframes through
     the feature descriptive statistics, returning a dictionary with the same keys. 
     For running statistics on all features use "all_features".
 
@@ -149,7 +151,7 @@ def feature_outliers(dataframe, features, outlier_method):
             dataframe containing data of interest
         features : list of str, or str
             list of strings which are the features stored as column names in the data frame.
-            Can use "all_features" to run all features.
+            Can use "all_features" string to run all features.
         outlier_method : str
             either "STD multiplier" or "IQR" to specify method of determining outlier cutoff.
             "STD multiplier" will prompt user to enter a float value to use as a multiplier
@@ -212,5 +214,6 @@ def feature_clustering(dataframe, features):
     Simple clustering method to provide a tool in determining whether
     certain features have high contribution to data quality.
 
-    To be implemented in V2
+    To be implemented in V2. Planning to use scipy k means, or 
+    sci-kit learn NearestNeighbors or DBSCAN
     """
