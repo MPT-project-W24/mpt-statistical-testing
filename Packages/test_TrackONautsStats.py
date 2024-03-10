@@ -9,7 +9,6 @@ import scipy as sp
 
 import TrackONautsStats
 
-
 class TestCorrelation(unittest.TestCase):
     df_exp1 = pd.DataFrame([[-1,0,1],[1,0,-1],[0.5,0,0.5]], index=["A","B","C"])
     df_exp2 = pd.DataFrame([[1,0,1],[-1,0,-1],[0,0,0]], index=["A","B","C"])
@@ -64,47 +63,47 @@ class TestStatistics(unittest.TestCase):
     dummy_list = ["dummy_df1", "dummy_df2"]
     
     def test_feature_descriptive_statistics_output1(self):
-        stats_df = feature_descriptive_statistics(dummy_df1,["A"])
+        stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1,["A"])
         self.assertTrue(isinstance(stats_df,pd.DataFrame))
 
     def test_feature_descriptive_statistics_output2(self):
-        stats_df = feature_descriptive_statistics(dummy_df1,"all_features")
+        stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1,"all_features")
         self.assertTrue(isinstance(stats_df,pd.DataFrame))
 
     def test_feature_descriptive_statistics_output3(self):
-        stats_df = feature_descriptive_statistics(dummy_df1,["B"])
+        stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1,["B"])
         self.assertTrue(isinstance(stats_df.iloc[0].dtype,float))
 
     def test_feature_descriptive_statistics_output4(self):
-        stats_df = feature_descriptive_statistics(dummer_df1,["A"])
+        stats_df = TrackONautsStats.feature_descriptive_statistics(dummer_df1,["A"])
         self.assrtTrue(np.isclose(stats_df["mean"].iloc[0],0))
 
     def test_multi_df_feat_descriptive_statistics_output1(self):
-        stats_dict = (dummy_dict,"all_features")
+        stats_dict = TrackONautsStats.multi_df_feat_descriptive_statistics(dummy_dict,"all_features")
         self.assertTrue(isintance(stats_dict,dict))
 
     def test_multi_df_feat_descriptive_statistics_output2(self):
-        stats_dict = (dummy_dict,["C"])
+        stats_dict = TrackONautsStats.multi_df_feat_descriptive_statistics(dummy_dict,["C"])
         self.assertTrue(isintance(stats_dict,dict))
 
     def test_multi_df_feat_descriptive_statistics_output3(self):
-        stats_dict = (dummy_dict,"all_features")
+        stats_dict = TrackONautsStats.multi_df_feat_descriptive_statistics(dummy_dict,"all_features")
         self.assertTrue(isintance(stats_dict["dummy_df2"],pd.DataFrame))
 
     def test_feature_outliers_output1(self):
-        outliers_list = feature_outliers(dummy_df1,"all_features")
+        outliers_list = TrackONautsStats.feature_outliers(dummy_df1,"all_features")
         self.assertTrue(isinstance(outliers_list,dict))
 
     def test_feature_outliers_output2(self):
-        outliers_list = feature_outliers(dummy_df1,["A","B"])
+        outliers_list = TrackONautsStats.feature_outliers(dummy_df1,["A","B"])
         self.assertTrue(isinstance(outliers_list,dict))
 
     def test_feature_outliers_output3(self):
-        outliers_list = feature_outliers(dummy_df1,"all_features")
+        outliers_list = TrackONautsStats.feature_outliers(dummy_df1,"all_features")
         self.assertTrue(isinstance(outliers_list["A"],list))
 
     def test_feature_outliers_output4(self):
-        outliers_list = feature_outliers(dummy_df1,"all_features","IQR")
+        outliers_list = TrackONautsStats.feature_outliers(dummy_df1,"all_features","IQR")
         self.assertTrue(np.isclose(outliers_list["E outliers above"],7))
 
     def test_feature_clustering(self):
