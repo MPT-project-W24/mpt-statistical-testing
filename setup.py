@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-   name='track-o-nauts',
+   name='track_o_nauts',
    version='1.0',
    description='A useful module',
    author='Man Foo',
