@@ -1,6 +1,6 @@
 import unittest
 from unittest import TestCase
-from Packages.data_separation import read_feature, filter_feature, remove_nans_feature, read_json,  put_together
+from track_o_nauts.data_separation import read_feature, filter_feature, remove_nans_feature, read_json,  put_together
 import pandas as pd
 import numpy as np
 from os import listdir, getcwd, chdir
