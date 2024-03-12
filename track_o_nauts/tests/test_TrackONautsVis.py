@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
 
-from track_o_nauts import data_separation
+#from track_o_nauts import data_separation
 from track_o_nauts.TrackONautsVis import position_plot, pairwise_plot, pair_plot, violin_plot
 
 import unittest
