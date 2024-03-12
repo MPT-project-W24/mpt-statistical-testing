@@ -1,4 +1,4 @@
-from data_separation import read_feature, filter_feature, remove_nans_feature, put_together    
+from track_o_nauts.data_separation import read_feature, filter_feature, remove_nans_feature, put_together    
 import os
 from os import listdir, getcwd, chdir
 from os.path import isfile, join
