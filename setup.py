@@ -7,5 +7,5 @@ setup(
    author='Man Foo',
    author_email='foomail@foo.example',
    packages=find_packages(), #['TrackONautsStats', 'video_quality_map', 'data_separation', 'TrackONautsVis', 'user_input_filepath'],  #same as name
-   install_requires=['pandas', 'numpy=1.22', 'scipy', 'matplotlib', 'seaborn'], #external packages as dependencies
+   install_requires=['pandas', 'numpy'=1.22, 'scipy', 'matplotlib', 'seaborn'], #external packages as dependencies
 )
