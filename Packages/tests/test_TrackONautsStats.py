@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 import scipy as sp
 
-import TrackONautsStats
+from Packages import TrackONautsStats
 
 df_exp1 = pd.DataFrame([[-1,0,1],[1,0,-1],[0.5,0,0.5]], index=["A","B","C"])
 df_exp2 = pd.DataFrame([[1,0,1],[-1,0,-1],[0,0,0]], index=["A","B","C"])
