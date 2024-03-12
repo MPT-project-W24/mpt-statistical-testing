@@ -46,6 +46,7 @@ def remove_nans_feature(feature_list, feature_data_path, feature_files):
     feature_data_filtered = filter_feature(feature_list, feature_data_path, feature_files)
     feature_data_removed_nans = {}
     for key in feature_data_filtered:
+
         feature_data_removed_nans[key] = feature_data_filtered[key][~feature_data_filtered[key][list(set(feature_list) - set(['Deff2', 'Mean Deff2']))].isin([np.nan, np.inf, -np.inf]).any(1)]
         feature_data_removed_nans[key] = feature_data_removed_nans[key].reset_index(drop=True)
     return feature_data_removed_nans
