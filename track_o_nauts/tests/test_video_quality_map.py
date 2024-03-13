@@ -11,8 +11,8 @@ import random
 
 class TestPlotFunctions(unittest.TestCase):
     def setUp(self):
-        self.feature_path = "/track_o_nauts/tests/test_MPTData/feature_data"
-        self.msd_path = "/track_o_nauts/tests/test_MPTData/msd_data"
+        self.feature_path = "/track_o_nauts/tests/test_MPTData/feature_data/"
+        self.msd_path = "/track_o_nauts/tests/test_MPTData/msd_data/"
         self.json_path = "/track_o_nauts/tests/test_MPTData/15_models_10_percent.json"
         vid_codes = []
         for f1 in os.listdir(self.feature_path):
