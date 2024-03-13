@@ -22,7 +22,7 @@ class TestCorrelation(unittest.TestCase):
         assert isinstance(computed_correlation, (int, float)), "Computed correlation is neither int nor float, it is %s" % type(computed_correlation)
 
     def test_for_row_of_0(self):
-        self.assertFalse(TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[0], df_exp2.iloc[2])
+        self.assertFalse(TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[0], df_exp2.iloc[2]))
 
     def test_corr_rowi_rowj_right_value(self):
         computed_correlation = TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[1], df_exp2.iloc[0])
