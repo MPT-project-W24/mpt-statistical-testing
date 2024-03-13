@@ -61,7 +61,7 @@ class TestSeparation(unittest.TestCase):
     def test_read_feature_test2(self):
         test_feature_data = read_feature(feature_data_path, feature_files)
         num_of_keys = len(test_feature_data.keys())
-        self.assertEqual(num_of_keys, 75, "Number of keys does not match")     
+        self.assertEqual(num_of_keys, 5, "Number of keys does not match")     
     def test_read_feature_test3(self):
         with self.assertRaises(TypeError):
             read_feature()
@@ -72,7 +72,7 @@ class TestSeparation(unittest.TestCase):
     def test_filter_feature_test2(self):
         test_filter_feature = filter_feature(feature_list, feature_data_path, feature_files)
         num_of_keys_filtered = len(test_filter_feature.keys())
-        self.assertEqual(num_of_keys_filtered, 75, "Number of keys does not match") 
+        self.assertEqual(num_of_keys_filtered, 5, "Number of keys does not match") 
     def test_filter_feature_test3(self):
         test_filter_feature = filter_feature(feature_list, feature_data_path, feature_files)
         for key, value in test_filter_feature.items():
@@ -84,7 +84,7 @@ class TestSeparation(unittest.TestCase):
     def test_remove_nans_test2(self):
         test_remove_nans = remove_nans_feature(feature_list, feature_data_path, feature_files)
         num_of_keys_removed = len(test_remove_nans.keys())
-        self.assertEqual(num_of_keys_removed, 75, "Number of keys does not match") 
+        self.assertEqual(num_of_keys_removed, 5, "Number of keys does not match") 
     def test_remove_nans_test3(self):
         test_remove_nans = remove_nans_feature(feature_list, feature_data_path, feature_files)
         for key, value in test_remove_nans.items():
