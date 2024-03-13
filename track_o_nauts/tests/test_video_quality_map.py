@@ -114,7 +114,7 @@ class TestPlotFunctions(unittest.TestCase):
             # Test if legend is called
             legend_patch.assert_called_once()
 
-    def test_distruibution_by_age(self):
+    def test_distribution_by_age(self):
         _, _, quality_data = merge_data(self.feature_path, self.msd_path, self.json_path)
         
         with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
