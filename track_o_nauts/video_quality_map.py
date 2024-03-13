@@ -250,7 +250,7 @@ def distribution_by_age(feature_path, msd_path, quality_data, save = None):
                 'Mean Quality Score': [],
                 'Quality': [],
                 'Age': []}
-    for code in enumerate(vid_codes):
+    for code in vid_codes:
         quality = quality_data['features_' + code]['Quality'].mean()
         qualities['Mean Quality Score'].append(quality)
         qualities['Video'].append(code)

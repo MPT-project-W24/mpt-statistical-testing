@@ -121,7 +121,7 @@ class TestPlotFunctions(unittest.TestCase):
             patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
             patch("track_o_nauts.video_quality_map.plt.grid") as grid_patch:
 
-            distruibution_by_age(self.feature_path, self.msd_path, quality_data)
+            distribution_by_age(self.feature_path, self.msd_path, quality_data)
             # Test if the plot is called
             assert show_patch.called
 
