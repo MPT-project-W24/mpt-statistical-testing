@@ -5,7 +5,7 @@ Hello! Welcome to our software engineering project Track-o-Nauts. Within this re
 The Track-o-Nauts Python Packages run in Python environments, and require Pandas, Numpy, SciPy, Seaborn, and Matplotlib. These packages were developed using up-to-date versions of Python=3.11, Pandas, Numpy=1.23.3, SciPy, Seaborn, and Matplotlib as of March 13, 2024.
 
 ### Packages
-* meng's .py files
+* data_separation.py - contains functions to separate MTP data based on quality value and catagory. Functions include reading MPT feature and quality data, organizing MPT feature data and combining quality values with MPT feature data. 
 * khanh's .py file
 * TrackONautsVis.py file - contains functions to plot features of the video of interest. Functions include particle position plot, pairwise plot for all features, pairwise plot for two specified features, and violin plot of a specified feature distribution.
 * TrackONautsStats.py - contains functions to rapidly run statistical methods on dataframes. V1.0 contains Pearson pairwise correlation, descriptive statistics, and outlier identification
