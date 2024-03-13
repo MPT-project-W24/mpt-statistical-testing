@@ -2,15 +2,13 @@ import unittest
 from unittest.mock import patch
 
 import os
-import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
 from track_o_nauts.video_quality_map import merge_data, trajectory_plot, zoom_trajectory_plot, distribution_by_age
 import random
 import track_o_nauts
 
+
 class TestPlotFunctions(unittest.TestCase):
+
     def setUp(self):
         file_path = os.path.join(track_o_nauts.__path__[0], "test_data")
         self.feature_path = os.path.join(file_path, "feature_data")
@@ -20,27 +18,23 @@ class TestPlotFunctions(unittest.TestCase):
         for f1 in os.listdir(self.feature_path):
             if f1.endswith('.csv'):
                 # Extract the tail in feature file
-                feature_tail = f1.split('_',1)[1].split('.')[0]
-                
+                feature_tail = f1.split('_', 1)[1].split('.')[0]
                 # Iterate over each file in msd
                 for f2 in os.listdir(self.msd_path):
-                    
                     # Extract the tail in msd file
-                    msd_tail = f2.split('_',1)[1].split('.')[0]
-            
+                    msd_tail = f2.split('_', 1)[1].split('.')[0]
                     # If tails are the same
                     if feature_tail == msd_tail:
-            
                         # Add tail into video_codes list
                         vid_codes.append(msd_tail)
         self.codes = vid_codes
-        self.merge_df,_,_ = merge_data(self.feature_path, self.msd_path, self.json_path)
-   
+        self.merge_df, _, _ = merge_data(self.feature_path, self.msd_path, self.json_path)
+
     def test_basic_functionality(self):
-            [df, msd_data, quality_data] = merge_data(self.feature_path, self.msd_path, self.json_path)
-            self.assertIsInstance(df, dict)
-            self.assertIsInstance(msd_data, dict)
-            self.assertIsInstance(quality_data, dict)
+        [df, msd_data, quality_data] = merge_data(self.feature_path, self.msd_path, self.json_path)
+        self.assertIsInstance(df, dict)
+        self.assertIsInstance(msd_data, dict)
+        self.assertIsInstance(quality_data, dict)
 
     def test_input_validation(self):
         # Test with invalid paths
@@ -48,7 +42,6 @@ class TestPlotFunctions(unittest.TestCase):
             merge_data("invalid/path", self.msd_path, self.json_path)
             merge_data(self.feature_path, "invalid/path", self.json_path)
             merge_data(self.feature_path, self.msd_path, "invalid/path")
-
 
     def test_data_integrity(self):
         df, _, _ = merge_data(self.feature_path, self.msd_path, self.json_path)
@@ -68,69 +61,64 @@ class TestPlotFunctions(unittest.TestCase):
                             'Mean fractal_dim', 'Mean trappedness', 'Mean efficiency',
                             'Mean straightness', 'Mean MSD_ratio', 'Mean Deff1', 'Mean Deff2',
                             'frames', 'Quality_y', 'Category']  # List of expected columns
-        for key in df.keys():    
+        for key in df.keys():
             self.assertCountEqual(list(df[key].columns), expected_columns)
 
-    
-            
     def test_trajectory_plot(self):
         vid_code = random.choice(self.codes)
 
         with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
             patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
-            patch("track_o_nauts.video_quality_map.plt.legend") as legend_patch:
+                patch("track_o_nauts.video_quality_map.plt.legend") as legend_patch:
 
             trajectory_plot(self.merge_df, vid_code)
             # Test if the plot is called
             assert show_patch.called
-
             # Test if it is the right title
-            title_patch.assert_called_once_with('Trajectories of Particles in Video ' + vid_code)        
-
+            title_patch.assert_called_once_with('Trajectories of Particles in Video ' + vid_code)
             # Test if legend is called
             legend_patch.assert_called_once()
 
-
     def test_zoom_trajectory_plot(self):
         vid_code = random.choice(self.codes)
-        
+
         df = self.merge_df[vid_code]
-        x1 = random.randint(0, int(max(df['X'].dropna(), default = 0)))
-        x2 = random.randint(0, int(max(df['X'].dropna(), default = 0)))
-        y1 = random.randint(0, int(max(df['Y'].dropna(), default = 0)))
-        y2 = random.randint(0, int(max(df['Y'].dropna(), default = 0)))
+        x1 = random.randint(0, int(max(df['X'].dropna(), default=0)))
+        x2 = random.randint(0, int(max(df['X'].dropna(), default=0)))
+        y1 = random.randint(0, int(max(df['Y'].dropna(), default=0)))
+        y2 = random.randint(0, int(max(df['Y'].dropna(), default=0)))
 
         with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
             patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
-            patch("track_o_nauts.video_quality_map.plt.legend") as legend_patch:
+                patch("track_o_nauts.video_quality_map.plt.legend") as legend_patch:
 
             zoom_trajectory_plot(self.merge_df, vid_code, x1, x2, y1, y2)
             # Test if the plot is called
             assert show_patch.called
 
             # Test if it is the right title
-            title_patch.assert_called_once_with('Zoom Trajectories of Particles in Video ' + vid_code)        
+            title_patch.assert_called_once_with('Zoom Trajectories of Particles in Video ' + vid_code)
 
             # Test if legend is called
             legend_patch.assert_called_once()
 
     def test_distribution_by_age(self):
         _, _, quality_data = merge_data(self.feature_path, self.msd_path, self.json_path)
-        
+
         with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
             patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
-            patch("track_o_nauts.video_quality_map.plt.grid") as grid_patch:
+                patch("track_o_nauts.video_quality_map.plt.grid") as grid_patch:
 
             distribution_by_age(self.feature_path, self.msd_path, quality_data)
             # Test if the plot is called
             assert show_patch.called
 
             # Test if it is the right title
-            title_patch.assert_called_once_with('Mean Quality Score Distribution between Different Ages')      
+            title_patch.assert_called_once_with('Mean Quality Score Distribution between Different Ages')
 
             # Test if legend is called
             grid_patch.assert_called_once_with(True)
-            
+
 
 if __name__ == '__main__':
     unittest.main()
