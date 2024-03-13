@@ -76,9 +76,9 @@ class TestPlotFunctions(unittest.TestCase):
     def test_trajectory_plot(self):
         vid_code = random.choice(self.codes)
 
-        with patch("video_quality_map.plt.show") as show_patch, \
-            patch("video_quality_map.plt.title") as title_patch, \
-            patch("video_quality_map.plt.legend") as legend_patch:
+        with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
+            patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
+            patch("track_o_nauts.video_quality_map.plt.legend") as legend_patch:
 
             trajectory_plot(self.merge_df, vid_code)
             # Test if the plot is called
@@ -100,9 +100,9 @@ class TestPlotFunctions(unittest.TestCase):
         y1 = random.randint(0, int(max(df['Y'].dropna(), default = 0)))
         y2 = random.randint(0, int(max(df['Y'].dropna(), default = 0)))
 
-        with patch("video_quality_map.plt.show") as show_patch, \
-            patch("video_quality_map.plt.title") as title_patch, \
-            patch("video_quality_map.plt.legend") as legend_patch:
+        with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
+            patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
+            patch("track_o_nauts.video_quality_map.plt.legend") as legend_patch:
 
             zoom_trajectory_plot(self.merge_df, vid_code, x1, x2, y1, y2)
             # Test if the plot is called
@@ -117,9 +117,9 @@ class TestPlotFunctions(unittest.TestCase):
     def test_distruibution_by_age(self):
         _, _, quality_data = merge_data(self.feature_path, self.msd_path, self.json_path)
         
-        with patch("video_quality_map.plt.show") as show_patch, \
-            patch("video_quality_map.plt.title") as title_patch, \
-            patch("video_quality_map.plt.grid") as grid_patch:
+        with patch("track_o_nauts.video_quality_map.plt.show") as show_patch, \
+            patch("track_o_nauts.video_quality_map.plt.title") as title_patch, \
+            patch("track_o_nauts.video_quality_map.plt.grid") as grid_patch:
 
             distruibution_by_age(self.feature_path, self.msd_path, quality_data)
             # Test if the plot is called
