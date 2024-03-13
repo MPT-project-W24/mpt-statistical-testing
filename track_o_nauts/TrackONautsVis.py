@@ -72,8 +72,8 @@ def pair_plot(data, feature1="", feature2=""):
     """
     # fig, ax = plt.subplots()
     fig = sns.jointplot(data=data,
-                  x=feature1, y=feature2,
-                  hue="Category")
+                        x=feature1, y=feature2,
+                        hue="Category")
     plt.show()
     return fig
 
