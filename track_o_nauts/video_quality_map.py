@@ -287,5 +287,7 @@ def distribution_by_age(feature_path, msd_path, quality_data, save=None):
     plt.grid(True)
     plt.show()
 
-    if save is not None:
+    if save is None:
+        pass
+    else:
         plt.savefig('Quality_score_distribution_by_age.png')
