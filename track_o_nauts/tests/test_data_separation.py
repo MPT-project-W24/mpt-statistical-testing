@@ -1,5 +1,6 @@
 import unittest
 from unittest import TestCase
+import track_o_nauts
 from track_o_nauts.data_separation import read_feature, filter_feature, remove_nans_feature, read_json,  put_together
 import pandas as pd
 import numpy as np
