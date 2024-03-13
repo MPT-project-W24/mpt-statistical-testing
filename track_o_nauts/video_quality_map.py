@@ -78,22 +78,23 @@ def merge_data(feature_path, msd_path, json_path):
     vid_codes = []
     # Iterate over each file in feature
     for f1 in os.listdir(feature_path):
-        
-        # Extract the tail in feature file
-        feature_tail = f1.split('_',1)[1].split('.')[0]
-        
-        # Iterate over each file in msd
-        for f2 in os.listdir(msd_path):
+        if f1.endswith('.csv'):
+
+            # Extract the tail in feature file
+            feature_tail = f1.split('_',1)[1].split('.')[0]
             
-            # Extract the tail in msd file
-            msd_tail = f2.split('_',1)[1].split('.')[0]
-    
-            # If tails are the same
-            if feature_tail == msd_tail:
-    
-                # Add tail into video_codes list
-                vid_codes.append(msd_tail)
-    
+            # Iterate over each file in msd
+            for f2 in os.listdir(msd_path):
+                
+                # Extract the tail in msd file
+                msd_tail = f2.split('_',1)[1].split('.')[0]
+        
+                # If tails are the same
+                if feature_tail == msd_tail:
+        
+                    # Add tail into video_codes list
+                    vid_codes.append(msd_tail)
+
     # Merge feature quality and msd into 1 table
     # Create an empty dictionary
     df = {}
@@ -230,22 +231,21 @@ def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
     vid_codes = []
     # Iterate over each file in feature
     for f1 in os.listdir(feature_path):
-        
-        # Extract the tail in feature file
-        feature_tail = f1.split('_',1)[1].split('.')[0]
-        
-        # Iterate over each file in msd
-        for f2 in os.listdir(msd_path):
+        if f1.endswith('.csv'):
+            # Extract the tail in feature file
+            feature_tail = f1.split('_',1)[1].split('.')[0]
             
-            # Extract the tail in msd file
-            msd_tail = f2.split('_',1)[1].split('.')[0]
-    
-            # If tails are the same
-            if feature_tail == msd_tail:
-    
-                # Add tail into video_codes list
-                vid_codes.append(msd_tail)
-
+            # Iterate over each file in msd
+            for f2 in os.listdir(msd_path):
+                
+                # Extract the tail in msd file
+                msd_tail = f2.split('_',1)[1].split('.')[0]
+        
+                # If tails are the same
+                if feature_tail == msd_tail:
+        
+                    # Add tail into video_codes list
+                    vid_codes.append(msd_tail)
 
 
     # Extract & calculate mean score of each video
