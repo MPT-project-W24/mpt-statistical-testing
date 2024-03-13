@@ -101,7 +101,7 @@ def violin_plot(data, feature=""):
         violin plot of specified feature grouped by feature quality
     """
     #fig, ax = plt.subplots()
-    sns.violinplot(
+    fig = sns.violinplot(
         data=data, y=feature, hue="Category")
     
     plt.xlabel("Feature Quality", labelpad=10)
