@@ -44,7 +44,7 @@ feature_list = [
     'Mean Deff1', 
     'Mean Deff2',
     ]
-feature_data_path = os.path.join(track_o_nauts.__path__, 'feature_data')
+feature_data_path = os.path.join(track_o_nauts.__path__[0], 'feature_data')
 feature_files = [f for f in listdir(feature_data_path) if isfile(join(feature_data_path, f)) and '.csv' in f and 'P' in f]
 json_filepath = os.path.join(track_o_nauts.__path__[0], 'json_file')  
 f1 = open(json_filepath, 'r')
