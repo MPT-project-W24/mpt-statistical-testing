@@ -6,7 +6,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
-from track_o_nauts.video_quality_map import merge_data, trajectory_plot, zoom_trajectory_plot, distruibution_by_age
+from track_o_nauts.video_quality_map import merge_data, trajectory_plot, zoom_trajectory_plot, distribution_by_age
 import random
 import track_o_nauts
 
