@@ -205,7 +205,7 @@ def zoom_trajectory_plot(merge_df, vid_code, x_1, x_2, y_1, y_2, save = None):
 
 
 
-def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
+def distribution_by_age(feature_path, msd_path, quality_data, save = None):
     '''
     Plot MEAN QUALITY SCORE BY AGE
     
