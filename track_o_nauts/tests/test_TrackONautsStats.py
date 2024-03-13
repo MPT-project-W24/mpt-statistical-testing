@@ -35,7 +35,7 @@ class TestCorrelation(unittest.TestCase):
     def test_corr_rowi_vs_all_row_of_0(self):
         computed_correlation = TrackONautsStats.corr_rowi_vs_all(df_exp2.iloc[1], df_exp2)
         compPOP = computed_correlation.pop(0)
-        self.assertFalse(compPop)
+        self.assertFalse(compPOP)
 
     def test_corr_rowi_vs_all_work_across_df(self):
         corr1 = TrackONautsStats.corr_rowi_vs_all(df_exp2.iloc[1], df_exp2)
@@ -75,11 +75,11 @@ class TestStatistics(unittest.TestCase):
 
     def test_feature_descriptive_statistics_output3(self):
         stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1, ["B"])
-        self.assertTrue(isinstance(stats_df.iloc[0].dtype, float64))
+        self.assertTrue(isinstance(stats_df.iloc[0].dtype, np.float64))
 
     def test_feature_descriptive_statistics_output4(self):
         stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1, ["A"])
-        self.assrtTrue(np.isclose(stats_df["mean"].iloc[0], 0))
+        self.assertTrue(np.isclose(stats_df["mean"].iloc[0], 0))
 
     def test_multi_df_feat_descriptive_statistics_output1(self):
         stats_dict = TrackONautsStats.multi_df_feat_descriptive_statistics(dummy_dict, "all_features")
