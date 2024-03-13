@@ -9,8 +9,8 @@ import scipy as sp
 
 from track_o_nauts import TrackONautsStats
 
-df_exp1 = pd.DataFrame([[-1,0,1],[1,0,-1],[0.5,0,0.5]], index=["A","B","C"])
-df_exp2 = pd.DataFrame([[1,0,1],[-1,0,-1],[0,0,0]], index=["A","B","C"])
+df_exp1 = pd.DataFrame([[-1,0,1],[1,0,-1],[0.5,0,0.5]],index=["A","B","C"])
+df_exp2 = pd.DataFrame([[1,0,1],[-1,0,-1],[0,0,0]],index=["A","B","C"])
 class TestCorrelation(unittest.TestCase):
        
     def test_corr_rowi_rowj_right_type(self):
@@ -55,9 +55,9 @@ class TestCorrelation(unittest.TestCase):
         computed_correlation = TrackONautsStats.pairwise_correlation(df_exp1)
         assert computed_correlation.shape == df_exp1.shape, "Function resulted in different sized dataframe"
 
-dummy_df1 = pd.DataFrame([[-1,0,1,0,0],[1,0,-1,0,1],[0.5,0.5,0.5,0,7]], columns=["A","B","C","D","E"])
-dummy_df2 = pd.DataFrame([[1,0,1,2,1],[-1,0,-1,0,2],[0,0,0,1,30]], columns=["A","B","C","D","E"])
-dummy_dict = {"dummy_df1": dummy_df1, "dummy_df2": dummy_df2}
+dummy_df1 = pd.DataFrame([[-1,0,1,0,0],[1,0,-1,0,1],[0.5,0.5,0.5,0,7]],columns=["A","B","C","D","E"])
+dummy_df2 = pd.DataFrame([[1,0,1,2,1],[-1,0,-1,0,2],[0,0,0,1,30]],columns=["A","B","C","D","E"])
+dummy_dict = {"dummy_df1": dummy_df1,"dummy_df2": dummy_df2}
 class TestStatistics(unittest.TestCase):
         
     def test_feature_descriptive_statistics_output1(self):
@@ -73,7 +73,7 @@ class TestStatistics(unittest.TestCase):
         self.assertTrue(isinstance(stats_df.iloc[0].dtype,float))
 
     def test_feature_descriptive_statistics_output4(self):
-        stats_df = TrackONautsStats.feature_descriptive_statistics(dummer_df1,["A"])
+        stats_df = TrackONautsStats.feature_descriptive_statistics(dummey_df1,["A"])
         self.assrtTrue(np.isclose(stats_df["mean"].iloc[0],0))
 
     def test_multi_df_feat_descriptive_statistics_output1(self):

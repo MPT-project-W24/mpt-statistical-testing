@@ -1,12 +1,12 @@
-from track_o_nauts.data_separation import read_feature, filter_feature, remove_nans_feature, put_together    
-import os
-from os import listdir, getcwd, chdir
-from os.path import isfile, join
 import json
-import pandas as pd
-import seaborn as sns
+import os
+from os import listdir
+from os.path import isfile, join
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
+from track_o_nauts.data_separation import read_feature, put_together    
 
 def merge_data(feature_path, msd_path, json_path):
     ''' Merge Data Quality & MSD Data into ONE:
@@ -18,15 +18,13 @@ def merge_data(feature_path, msd_path, json_path):
         'json_path' - path to json file
 
     OUTPUTs:
-        'df' - the merge data containing both feature qualities and msd, excluding out X & Y values in feature files.
+        'df' - merge data of feature qualities and msd, excluding out X & Y in feature
         'msd_data' - dictonary of the msd data for all videos (input for other functions)
         'data_quality' - dictonary of the feature data for all videos (input for other functions)
     '''
     # Sort the data into categories: high, low, medium
-    
     with open(json_path) as json_file:
         json_data = json.load(json_file)
-    
     feature_list = [
     'alpha', # Fitted anomalous diffusion alpha exponenet
     'D_fit', # Fitted anomalous diffusion coefficient
@@ -76,30 +74,30 @@ def merge_data(feature_path, msd_path, json_path):
     
     # Create empty var
     vid_codes = []
-    # Iterate over each file in feature
-    for f1 in os.listdir(feature_path):
-        
-        # Extract the tail in feature file
-        feature_tail = f1.split('_',1)[1].split('.')[0]
-        
-        # Iterate over each file in msd
-        for f2 in os.listdir(msd_path):
+     # Iterate over each file in feature
+    for file_1 in os.listdir(feature_path):
+        if file_1.endswith('.csv'):
+            # Extract the tail in feature file
+            feature_tail = file_1.split('_',1)[1].split('.')[0]
             
-            # Extract the tail in msd file
-            msd_tail = f2.split('_',1)[1].split('.')[0]
-    
-            # If tails are the same
-            if feature_tail == msd_tail:
-    
-                # Add tail into video_codes list
-                vid_codes.append(msd_tail)
-    
+            # Iterate over each file in msd
+            for file_2 in os.listdir(msd_path):
+                
+                # Extract the tail in msd file
+                msd_tail = file_2.split('_',1)[1].split('.')[0]
+        
+                # If tails are the same
+                if feature_tail == msd_tail:
+        
+                    # Add tail into video_codes list
+                    vid_codes.append(msd_tail)
+
     # Merge feature quality and msd into 1 table
     # Create an empty dictionary
-    df = {}
+    merge_df = {}
     for code in vid_codes:
-        df[code] = pd.merge(msd_data['msd_' + code], quality_data['features_' + code].drop(columns=['X','Y']), on='Track_ID', how='left')                        
-    return df, msd_data, quality_data
+        merge_df[code] = pd.merge(msd_data['msd_' + code], quality_data['features_' + code].drop(columns=['X','Y']), on='Track_ID', how='left')                        
+    return merge_df, msd_data, quality_data
 
 
 def trajectory_plot(merge_df, vid_code, save = None):
@@ -119,10 +117,10 @@ def trajectory_plot(merge_df, vid_code, save = None):
     df = merge_df[vid_code]
     
     # Separate data based on Category
-    low_Y = df[df['Category'] == 'low']
-    med_Y = df[df['Category'] == 'medium']
-    high_Y = df[df['Category'] == 'high']
-    null_Y = df[df['Category'] == None]
+    low_y = df[df['Category'] == 'low']
+    med_y = df[df['Category'] == 'medium']
+    high_y = df[df['Category'] == 'high']
+    null_y = df[df['Category'] is None]
 
     # Color coded the X Y based on quality sort
     # green-high, yellow-medium, red-low, purple-NaN
@@ -130,23 +128,23 @@ def trajectory_plot(merge_df, vid_code, save = None):
     # Plot
     plt.figure(figsize = (8,8))
         
-    plt.plot(low_Y['X'], low_Y['Y'], color='red', label='Low')
-    plt.plot(med_Y['X'], med_Y['Y'], color='yellow', label='Medium')
-    plt.plot(high_Y['X'], high_Y['Y'], color='green', label='High')
-    plt.plot(null_Y['X'], null_Y['Y'], color='grey', label='Unclassified')
+    plt.plot(low_y['X'], low_y['Y'], color='red', label='Low')
+    plt.plot(med_y['X'], med_y['Y'], color='yellow', label='Medium')
+    plt.plot(high_y['X'], high_y['Y'], color='green', label='High')
+    plt.plot(null_y['X'], null_y['Y'], color='grey', label='Unclassified')
     
     plt.legend()
     plt.title('Trajectories of Particles in Video ' + vid_code)
     plt.show()
 
-    if save != None:
+    if save is not None:
         plt.savefig('trajectories_of_' + vid_code + '.png')
 
 
 
 # Zoom into the section of interested
 
-def zoom_trajectory_plot(merge_df, vid_code, x1, x2, y1, y2, save = None):
+def zoom_trajectory_plot(merge_df, vid_code, x_1, x_2, y_1, y_2, save = None):
 
     '''
     Plot TRAJECTORIES of ALL PARTICLES in ONE VIDEO
@@ -166,18 +164,18 @@ def zoom_trajectory_plot(merge_df, vid_code, x1, x2, y1, y2, save = None):
     df = merge_df[vid_code]
     
     # Separate data based on Category
-    low_Y = df[df['Category'] == 'low']
-    med_Y = df[df['Category'] == 'medium']
-    high_Y = df[df['Category'] == 'high']
-    null_Y = df[df['Category'] == None]
+    low_y = df[df['Category'] == 'low']
+    med_y = df[df['Category'] == 'medium']
+    high_y = df[df['Category'] == 'high']
+    null_y = df[df['Category'] is None]
 
     # Plot
     plt.figure(figsize = (8,8))
         
-    plt.plot(low_Y['X'], low_Y['Y'], color='red', label='Low')
-    plt.plot(med_Y['X'], med_Y['Y'], color='yellow', label='Medium')
-    plt.plot(high_Y['X'], high_Y['Y'], color='green', label='High')
-    plt.plot(null_Y['X'], null_Y['Y'], color='grey', label='Unclassified')
+    plt.plot(low_y['X'], low_y['Y'], color='red', label='Low')
+    plt.plot(med_y['X'], med_y['Y'], color='yellow', label='Medium')
+    plt.plot(high_y['X'], high_y['Y'], color='green', label='High')
+    plt.plot(null_y['X'], null_y['Y'], color='grey', label='Unclassified')
     
     plt.legend()
     plt.xlabel('X')
@@ -185,29 +183,29 @@ def zoom_trajectory_plot(merge_df, vid_code, x1, x2, y1, y2, save = None):
     plt.title('Zoom Trajectories of Particles in Video ' + vid_code)
     
     # Zoom into only an area of interested of the plot
-    if x1 < x2 and y1 < y2:
-        plt.xlim(x1, x2)
-        plt.ylim(y1, y2)
-    elif x1 > x2 and y1 < y2:
-        plt.xlim(x2, x1)
-        plt.ylim(y1, y2)
-    elif x1 < x2 and y1 > y2:
-        plt.xlim(x1, x2)
-        plt.ylim(y2, y1)
-    elif x1 > x2 and y1 > y2:
-        plt.xlim(x2, x1)
-        plt.ylim(y2, y1)
+    if x_1 < x_2 and y_1 < y_2:
+        plt.xlim(x_1, x_2)
+        plt.ylim(y_1, y_2)
+    elif x_1 > x_2 and y_1 < y_2:
+        plt.xlim(x_2, x_1)
+        plt.ylim(y_1, y_2)
+    elif x_1 < x_2 and y_1 > y_2:
+        plt.xlim(x_1, x_2)
+        plt.ylim(y_2, y_1)
+    elif x_1 > x_2 and y_1 > y_2:
+        plt.xlim(x_2, x_1)
+        plt.ylim(y_2, y_1)
         
     plt.grid(True)
     
     plt.show()
 
-    if save != None:
+    if save is not None:
         plt.savefig('zoom_trajectories_of_' + vid_code + '.png')
 
 
 
-def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
+def distribution_by_age(feature_path, msd_path, quality_data, save = None):
     '''
     Plot MEAN QUALITY SCORE BY AGE
     
@@ -229,23 +227,22 @@ def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
     # Create empty var
     vid_codes = []
     # Iterate over each file in feature
-    for f1 in os.listdir(feature_path):
-        
-        # Extract the tail in feature file
-        feature_tail = f1.split('_',1)[1].split('.')[0]
-        
-        # Iterate over each file in msd
-        for f2 in os.listdir(msd_path):
+    for file_1 in os.listdir(feature_path):
+        if file_1.endswith('.csv'):
+            # Extract the tail in feature file
+            feature_tail = file_1.split('_',1)[1].split('.')[0]
             
-            # Extract the tail in msd file
-            msd_tail = f2.split('_',1)[1].split('.')[0]
-    
-            # If tails are the same
-            if feature_tail == msd_tail:
-    
-                # Add tail into video_codes list
-                vid_codes.append(msd_tail)
-
+            # Iterate over each file in msd
+            for file_2 in os.listdir(msd_path):
+                
+                # Extract the tail in msd file
+                msd_tail = file_2.split('_',1)[1].split('.')[0]
+        
+                # If tails are the same
+                if feature_tail == msd_tail:
+        
+                    # Add tail into video_codes list
+                    vid_codes.append(msd_tail)
 
 
     # Extract & calculate mean score of each video
@@ -253,7 +250,7 @@ def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
                 'Mean Quality Score': [],
                 'Quality': [],
                 'Age': []}
-    for i,code in enumerate(vid_codes):
+    for code in enumerate(vid_codes):
         quality = quality_data['features_' + code]['Quality'].mean()
         qualities['Mean Quality Score'].append(quality)
         qualities['Video'].append(code)
@@ -281,5 +278,5 @@ def distruibution_by_age(feature_path, msd_path, quality_data, save = None):
     plt.grid(True)
     plt.show()
 
-    if save != None:
+    if save is not None:
         plt.savefig('Quality_score_distribution_by_age.png')
