@@ -22,7 +22,7 @@ class TestPositionPlot(unittest.TestCase):
         """test function that tests if bounds of position_plot are correct"""
         test_df = pd.DataFrame({"X": [1, 2, 3], "Y": [10, 20, 30], "Category": ["low", "medium", "high"]})
         fig = position_plot(test_df, x_bounds=(0, 50), y_bounds=(0, 100))
-    
+
         assert fig.gca().get_xlim() == (0, 50)
         assert fig.gca().get_ylim() == (0, 100)
         return
@@ -30,11 +30,11 @@ class TestPositionPlot(unittest.TestCase):
     def test_position_plot_label(data, x="X", y="Y", title="Particle Position", x_bounds=None, y_bounds=None):
         """test function that tests if the xlabel and ylabel are displayed correctly"""
         test_df = pd.DataFrame({"X": [1, 2, 3], "Y": [10, 20, 30], "Category": ["low", "medium", "high"]})
-        fig = position_plot(test_df)
-    
+        position_plot(test_df)
+
         x_label = plt.xlabel("X Position", labelpad=10).get_text()
         y_label = plt.ylabel("Y Position", labelpad=10).get_text()
-    
+
         assert x_label == "X Position"
         assert y_label == "Y Position"
         return
@@ -45,7 +45,7 @@ class TestPositionPlot(unittest.TestCase):
         fig = position_plot(test_df)
 
         plot_title = fig.gca().get_title()
-    
+
         assert plot_title == "Particle Position"
         return
 
@@ -101,10 +101,10 @@ class TestViolinPlot(unittest.TestCase):
         test_df = pd.DataFrame({"X": [1, 2, 3, 4, 5], "Y": [10, 20, 30, 40, 50], "Z": [5, 4, 3, 2, 1],
                                 "Category": ["low", "medium", "high", "medium", "low"]})
         violin_plot(test_df, feature="X")
-    
+
         x_label = plt.xlabel("Feature Quality", labelpad=10).get_text()
         y_label = plt.ylabel("X", labelpad=10).get_text()
-    
+
         assert x_label == "Feature Quality"
         assert y_label == "X"
         return
