@@ -8,12 +8,14 @@ import seaborn as sns
 import numpy as np
 from track_o_nauts.video_quality_map import merge_data, trajectory_plot, zoom_trajectory_plot, distruibution_by_age
 import random
+import track_o_nauts
 
 class TestPlotFunctions(unittest.TestCase):
     def setUp(self):
-        self.feature_path = "./tests/test_MPTData/feature_data"
-        self.msd_path = "./tests/test_MPTData/msd_data"
-        self.json_path = "./tests/test_MPTData/15_models_10_percent.json"
+        file_path = os.path.join(track_o_nauts.__path__[0], "test_data")
+        self.feature_path = os.path.join(file_path, "feature_data")
+        self.msd_path = os.path.join(file_path, "msd_data")
+        self.json_path = os.path.join(file_path, "json_file/15_models_10_percent.json")
         vid_codes = []
         for f1 in os.listdir(self.feature_path):
             if f1.endswith('.csv'):
