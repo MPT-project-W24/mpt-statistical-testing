@@ -43,9 +43,9 @@ feature_list = [
     'Mean Deff1', 
     'Mean Deff2',
     ]
-feature_data_path = '/track_o_nauts/tests/test_MPTData/feature_data/'
+feature_data_path = './test_MPTData/feature_data'
 feature_files = [f for f in listdir(feature_data_path) if isfile(join(feature_data_path, f)) and '.csv' in f and 'P' in f]
-json_filepath = '/track_o_nauts/tests/test_MPTData/15_models_10_percent.json'  
+json_filepath = './test_MPTData/15_models_10_percent.json'  
 f1 = open(json_filepath, 'r')
 json_data = json.load(f1)
 f1.close()
