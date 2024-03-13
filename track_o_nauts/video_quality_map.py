@@ -133,7 +133,7 @@ def trajectory_plot(merge_df, vid_code, save=None):
     low_y = df[df['Category'] == 'low']
     med_y = df[df['Category'] == 'medium']
     high_y = df[df['Category'] == 'high']
-    null_y = df[df['Category'] == None]
+    null_y = df[df['Category'].isnull()]
 
     # Color coded the X Y based on quality sort
     # green-high, yellow-medium, red-low, purple-NaN
@@ -181,7 +181,7 @@ def zoom_trajectory_plot(merge_df, vid_code, x_1, x_2, y_1, y_2, save=None):
     low_y = df[df['Category'] == 'low']
     med_y = df[df['Category'] == 'medium']
     high_y = df[df['Category'] == 'high']
-    null_y = df[df['Category'] == None]
+    null_y = df[df['Category'].isnull()]
 
     # Plot
     plt.figure(figsize=(8, 8))
@@ -287,5 +287,7 @@ def distribution_by_age(feature_path, msd_path, quality_data, save=None):
     plt.grid(True)
     plt.show()
 
-    if save is not None:
+    if save is None:
+        pass
+    else:
         plt.savefig('Quality_score_distribution_by_age.png')
