@@ -54,7 +54,7 @@ def pairwise_correlation(dataframe):
     Output:
         corr_df = pd.DataFrame
             pandas dataframe containing all pairwise Pearson correlation values
-    """ 
+    """
     corr_all = []
     for i, row_i in dataframe.iterrows():
         corr_all.append(corr_rowi_vs_all(row_i, dataframe))
@@ -111,7 +111,7 @@ def feature_descriptive_statistics(dataframe, features):
             feat_std = dataframe[feature].std(); feat_stats.append(feat_std)
             feat_descriptive_statistics.append(feat_stats)
     stat_names = ["mean", "median", "maximum", "minimum",
-                  "variance", "standard deviation"] 
+                  "variance", "standard deviation"]
     feat_descriptive_statistics_df = pd.DataFrame(
         np.array(feat_descriptive_statistics),
         index=features,
@@ -121,9 +121,9 @@ def feature_descriptive_statistics(dataframe, features):
 
 def multi_df_feat_descriptive_statistics(dataframes, features):
     """
-    This function takes an input dictionary of dataframes and 
+    This function takes an input dictionary of dataframes and
     a list of features str to automatically run multiple dataframes through
-    the feature descriptive statistics, returning a dictionary with the same keys. 
+    the feature descriptive statistics, returning a dictionary with the same keys.
     For running statistics on all features use "all_features".
 
     Args:
