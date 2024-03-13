@@ -120,7 +120,7 @@ def trajectory_plot(merge_df, vid_code, save = None):
     low_y = df[df['Category'] == 'low']
     med_y = df[df['Category'] == 'medium']
     high_y = df[df['Category'] == 'high']
-    null_y = df[df['Category'] is None]
+    null_y = df[df['Category'] == None]
 
     # Color coded the X Y based on quality sort
     # green-high, yellow-medium, red-low, purple-NaN
@@ -167,7 +167,7 @@ def zoom_trajectory_plot(merge_df, vid_code, x_1, x_2, y_1, y_2, save = None):
     low_y = df[df['Category'] == 'low']
     med_y = df[df['Category'] == 'medium']
     high_y = df[df['Category'] == 'high']
-    null_y = df[df['Category'] is None]
+    null_y = df[df['Category'] == None]
 
     # Plot
     plt.figure(figsize = (8,8))
@@ -250,7 +250,7 @@ def distribution_by_age(feature_path, msd_path, quality_data, save = None):
                 'Mean Quality Score': [],
                 'Quality': [],
                 'Age': []}
-    for code in enumerate(vid_codes):
+    for code in vid_codes:
         quality = quality_data['features_' + code]['Quality'].mean()
         qualities['Mean Quality Score'].append(quality)
         qualities['Video'].append(code)
