@@ -184,9 +184,9 @@ def feature_outliers(dataframe, features, outlier_method):
             feature_outliers_dict = {}
             for feature in features:
                 feat_iqr = sp.stats.iqr(dataframe[feature])
-                feat_median = dataframe[feature].median()
-                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_median+(1.5*feat_iqr)]
-                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_median-(1.5*feat_iqr)]
+                feat_q25, feat_q75 = dataframe[feature].quantile([0.25, 0.75])
+                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_q75+(1.5*feat_iqr)]
+                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_q25-(1.5*feat_iqr)]
                 feature_outliers_dict[feature+" outliers above"] = outliers_above
                 feature_outliers_dict[feature+" outliers below"] = outliers_below
 
@@ -206,9 +206,9 @@ def feature_outliers(dataframe, features, outlier_method):
             feature_outliers_dict = {}
             for feature in features:
                 feat_iqr = sp.stats.iqr(dataframe[feature])
-                feat_median = dataframe[feature].median()
-                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_median+(1.5*feat_iqr)]
-                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_median-(1.5*feat_iqr)]
+                feat_q25, feat_q75 = dataframe[feature].quantile([0.25, 0.75])
+                outliers_above = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] >= feat_q75+(1.5*feat_iqr)]
+                outliers_below = [row_i[feature] for index, row_i in dataframe.iterrows() if row_i[feature] <= feat_q25-(1.5*feat_iqr)]
                 feature_outliers_dict[feature+" outliers above"] = outliers_above
                 feature_outliers_dict[feature+" outliers below"] = outliers_below
     return feature_outliers_dict
