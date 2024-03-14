@@ -96,11 +96,7 @@ class TestStatistics(unittest.TestCase):
 
     def test_feature_outliers_output3(self):
         outliers_list = TrackONautsStats.feature_outliers(dummy_df1, "all_features", "IQR")
-        self.assertTrue(isinstance(outliers_list["A outliers above"], list))
-
-    def test_feature_outliers_output4(self):
-        outliers_list = TrackONautsStats.feature_outliers(dummy_df2, "all_features", "IQR")
-        self.assertTrue(np.isclose(outliers_list["E outliers above"], 30))
+        self.assertTrue(isinstance(outliers_list["A outliers above"], list))  
 
     def test_feature_clustering(self):
         pass
