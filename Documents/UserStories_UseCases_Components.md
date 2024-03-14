@@ -17,135 +17,136 @@
 
 
 ### Component specification 
-data_separation.py
+# data_separation.py
 * read_feature
 	* Function that reads all the feature data in the provided data path and put them into a dictionary as values, rename the .csv files and put the names to a dictionary as keys
 	* Inputs
 		feature_data_path: paths to where the user store the data
 		feature_files: the .csv files in the data path
 	* Outputs: a dictionary contains the name of each .csv file as keys and the feature data in each .csv file as values
-	Connections: output given to other functions
-	Side effects: none
-filter_feature
-Function that filter the feature data by selected feature list
-Inputs
-feature_data_path: paths to where the user store the data
-feature_files: the .csv files in the data path
-feature_list: a list contains the features we used
-Outputs: a dictionary contains the name of each .csv file as keys and the filtered feature data as values
-Connections: output given to other functions
-Side effects: none
-remove_nans_feature
-Function that remove the nans in filtered feature data 
-Inputs
-feature_data_path: paths to where the user store the data
-feature_files: the .csv files in the data path
-feature_list: a list contains the features we used
-Outputs: a dictionary contains the name of each .csv file as keys and the organized feature data as values
-Connections: output given to other functions
-Side effects: none
-read_json
-Function that read the quality data in the order of feature data
-Inputs
-feature_data_path: paths to where the user store the data
-feature_files: the .csv files in the data path
-feature_list: a list contains the features we used
-json_data: file contains the quality data
-Outputs: a dictionary contains the name as keys and the lists contained quality data as values
-Connections: output given to other functions
-Side effects: none
-put_together
-Function separate the quality data into different category, combines the organized feature data with the quality data by adding two columns named Quality and Category
-Inputs
-feature_data_path: paths to where the user store the data
-feature_files: the .csv files in the data path
-feature_list: a list contains the features we used
-json_data: file contains the quality data
-Outputs: a dictionary contains the name as keys and the quality data with quality and category as values
-Connections: This component can separate the MPT data based on quality. Output given to other functions
-Side effects: none
-TrackONautsVis.py
-position_plot
-Function that plots scatter of particle position and color code based on quality
-Inputs:
-data: quality-sorted dataframe of the video of interest
-x: x-axis of plot; takes in "X" column from dataframe
-y: y-axis of plot; takes in "Y" column from dataframe
-x_bounds: boundary of x-axis; takes two numbers (int or float) in a list; if not specified, default is autoscale
-y_bounds: boundary of y-axis; takes two numbers (int or float) in a list; if not specified, default is autoscale
-Outputs: scatter plot of particle position color coded based on quality
-Connections: this component will read in the feature data in the form of a dataframe
-Side effects: none
-pairwise_plot
-Function that plots all pairwise plots between each column in dataframe
-Inputs: 
-Data: quality-sorted dataframe of the video of interest
-Outputs: scatter plots of all pairwise plots between each column, # of total plots = (# of columns minus 1)^2
-Connections: this component will read in the feature data in the form of a dataframe
-Side effects: none
-pair_plot
-Function to plot scatter plot of two specified features and corresponding distribution
-Inputs:
-data: quality-sorted dataframe of the video of interest
-feature1: x-axis of plot; takes in a feature column from dataframe
-feature2: y-axis of plot; takes in another feature column from dataframe
-Outputs: scatter plot of two specified features and their corresponding distribution color coded based on quality
-Connections: this component will read in the feature data in the form of a dataframe
-Side effects: none
-violin_plot
-Function to plot violin plot of specified feature and grouped by quality
-Inputs:
-data: quality-sorted dataframe of the video of interest
-feature: feature of interest
-Outputs: violin plot of specified feature grouped by feature quality
-Connections: this component will read in the feature data in the form of a dataframe
-Side effects: none
+	* Connections: output given to other functions
+	* Side effects: none
+* filter_feature
+	* Function that filter the feature data by selected feature list
+	* Inputs
+		feature_data_path: paths to where the user store the data
+		feature_files: the .csv files in the data path
+		feature_list: a list contains the features we used
+	* Outputs: a dictionary contains the name of each .csv file as keys and the filtered feature data as values
+	* Connections: output given to other functions
+	* Side effects: none
+* remove_nans_feature
+	* Function that remove the nans in filtered feature data 
+	* Inputs
+		feature_data_path: paths to where the user store the data
+		feature_files: the .csv files in the data path
+		feature_list: a list contains the features we used
+	* Outputs: a dictionary contains the name of each .csv file as keys and the organized feature data as values
+	* Connections: output given to other functions
+	* Side effects: none
+* read_json
+	* Function that read the quality data in the order of feature data
+	* Inputs
+		feature_data_path: paths to where the user store the data
+		feature_files: the .csv files in the data path
+		feature_list: a list contains the features we used
+		json_data: file contains the quality data
+	* Outputs: a dictionary contains the name as keys and the lists contained quality data as values
+	* Connections: output given to other functions
+	* Side effects: none
+* put_together
+	* Function separate the quality data into different category, combines the organized feature data with the quality data by adding two columns named Quality and Category
+	* Inputs
+		feature_data_path: paths to where the user store the data
+		feature_files: the .csv files in the data path
+		feature_list: a list contains the features we used
+		json_data: file contains the quality data
+	* Outputs: a dictionary contains the name as keys and the quality data with quality and category as values
+	* Connections: This component can separate the MPT data based on quality. Output given to other functions
+	* Side effects: none
 
-video_quality_map.py
-merge_data:
-Function to extract quality information from Data Quality Analyzer (data_separation.py), and merge into the corresponding msd data.
-Inputs:
-feature_path: path to features_*.csv files
-msd_path: path to msd_*.csv files
-Json_path: path to json file
-Outputs:
-merge_df: a dictionary with keys indicating video codes; for each video code, there is a combined table of msd and feature dataset with the assigned quality for each particle trajectory.
-msd_data: a dictionary of all msd data imported here, can be called if needed.
-quality_data: a dictionary of all the quality data as in put_together.
-Connections:
-import package from data_separation
-merge_df: needed for trajectory_plot & zoom_trajectory_plot
-quality_data: need for distribution_by_age
-Side effects: None
-trajectory_plot:
-Function to plot all trajectories of all particles in one video
-Inputs:
-merge_df: output from merge_df - a dictionary with keys indicating video codes; for each video code, there is a combined table of msd and feature dataset with the assigned quality for each particle trajectory.
-vid_code: code name of the video of interest (example: “P14_40nm_s1_v3”).
-save: option to save the plot to current directory; = None (by default)
-Output: a plot of all trajectories of all particles of the video of interest
-Connections: using merge_df from merge_data
-Side effects: None
-zoom_trajectory_plot:
-A zoom-in function of the plot in trajectory_plot.
-Inputs:
-merge_df: output from merge_df - a dictionary with keys indicating video codes; for each video code, there is a combined table of msd and feature dataset with the assigned quality for each particle trajectory.
-vid_code: code name of the video of interest (example: “P14_40nm_s1_v3”).
-x1, x2, y1, y2: x and y bounds of the area of interest on the plot
-save: option to save the plot to current directory; = None (by default)
-Output: a plot with a closer look into an area of interest.
-Connections: using merge_df from merge_data
-Side effects: None
-distribution_by_age: 
-A function that takes information across all of the videos, sorted by age, and a mean quality score for each video was calculated; it generates a swarmplot among videos of different age groups.
-Inputs:
-feature_path: path to features_*.csv files
-msd_path: path to msd_*.csv files
-quality_data: a dictionary of all the quality data from merge_data
-save: option to save the plot to current directory; = None (by default)
-Output: A swarmplot of video quality among different age groups.
-Connections: using quality_data from merge_data
-Side effects: None
+# TrackONautsVis.py
+* position_plot
+	* Function that plots scatter of particle position and color code based on quality
+	* Inputs:
+		data: quality-sorted dataframe of the video of interest
+		x: x-axis of plot; takes in "X" column from dataframe
+		y: y-axis of plot; takes in "Y" column from dataframe
+		x_bounds: boundary of x-axis; takes two numbers (int or float) in a list; if not specified, default is autoscale
+		y_bounds: boundary of y-axis; takes two numbers (int or float) in a list; if not specified, default is autoscale
+	* Outputs: scatter plot of particle position color coded based on quality
+	* Connections: this component will read in the feature data in the form of a dataframe
+	* Side effects: none
+* pairwise_plot
+	* Function that plots all pairwise plots between each column in dataframe
+	* Inputs: 
+		Data: quality-sorted dataframe of the video of interest
+		Outputs: scatter plots of all pairwise plots between each column, # of total plots = (# of columns minus 1)^2
+	* Connections: this component will read in the feature data in the form of a dataframe
+	* Side effects: none
+* pair_plot
+	* Function to plot scatter plot of two specified features and corresponding distribution
+	* Inputs:
+		data: quality-sorted dataframe of the video of interest
+		feature1: x-axis of plot; takes in a feature column from dataframe
+		feature2: y-axis of plot; takes in another feature column from dataframe
+	* Outputs: scatter plot of two specified features and their corresponding distribution color coded based on quality
+	* Connections: this component will read in the feature data in the form of a dataframe
+	* Side effects: none
+* violin_plot
+	* Function to plot violin plot of specified feature and grouped by quality
+	* Inputs:
+		data: quality-sorted dataframe of the video of interest
+		feature: feature of interest
+	* Outputs: violin plot of specified feature grouped by feature quality
+	* Connections: this component will read in the feature data in the form of a dataframe
+	* Side effects: none
+
+# video_quality_map.py
+* merge_data:
+	* Function to extract quality information from Data Quality Analyzer (data_separation.py), and merge into the corresponding msd data.
+	* Inputs:
+		feature_path: path to features_*.csv files
+		msd_path: path to msd_*.csv files
+		Json_path: path to json file
+	* Outputs:
+		merge_df: a dictionary with keys indicating video codes; for each video code, there is a combined table of msd and feature dataset with the assigned quality for each particle trajectory.
+		msd_data: a dictionary of all msd data imported here, can be called if needed.
+		quality_data: a dictionary of all the quality data as in put_together.
+	* Connections:
+		import package from data_separation
+		merge_df: needed for trajectory_plot & zoom_trajectory_plot
+		quality_data: need for distribution_by_age
+	* Side effects: None
+* trajectory_plot:
+	* Function to plot all trajectories of all particles in one video
+	* Inputs:
+		merge_df: output from merge_df - a dictionary with keys indicating video codes; for each video code, there is a combined table of msd and feature dataset with the assigned quality for each particle trajectory.
+		vid_code: code name of the video of interest (example: “P14_40nm_s1_v3”).
+		save: option to save the plot to current directory; = None (by default)
+	* Output: a plot of all trajectories of all particles of the video of interest
+	* Connections: using merge_df from merge_data
+	* Side effects: None
+* zoom_trajectory_plot:
+	* A zoom-in function of the plot in trajectory_plot.
+	* Inputs:
+		merge_df: output from merge_df - a dictionary with keys indicating video codes; for each video code, there is a combined table of msd and feature dataset with the assigned quality for each particle trajectory.
+		vid_code: code name of the video of interest (example: “P14_40nm_s1_v3”).
+		x1, x2, y1, y2: x and y bounds of the area of interest on the plot
+		save: option to save the plot to current directory; = None (by default)
+	* Output: a plot with a closer look into an area of interest.
+	* Connections: using merge_df from merge_data
+	* Side effects: None
+* distribution_by_age: 
+	* A function that takes information across all of the videos, sorted by age, and a mean quality score for each video was calculated; it generates a swarmplot among videos of different age groups.
+	* Inputs:
+		feature_path: path to features_*.csv files
+		msd_path: path to msd_*.csv files
+		quality_data: a dictionary of all the quality data from merge_data
+		save: option to save the plot to current directory; = None (by default)
+	* Output: A swarmplot of video quality among different age groups.
+	* Connections: using quality_data from merge_data
+	* Side effects: None
 
 TrackONautsStats.py
 corr_rowi_rowj
