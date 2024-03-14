@@ -18,8 +18,9 @@ def corr_rowi_rowj(row_i, row_j):
     """
     if row_i.any() is False or row_j.any() is False:
         raise Exception("A row is all zeros and does not work with .corr")
-    corr_ij = row_i.corr(row_j)
-    return corr_ij
+    else:
+        corr_ij = row_i.corr(row_j)
+        return corr_ij
 
 
 def corr_rowi_vs_all(row_i, dataframe):
