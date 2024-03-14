@@ -17,7 +17,7 @@
 
 
 ### Component specification 
-# data_separation.py
+#### data_separation.py
 * read_feature
 	* Function that reads all the feature data in the provided data path and put them into a dictionary as values, rename the .csv files and put the names to a dictionary as keys
 	* Inputs
@@ -65,7 +65,7 @@
 	* Connections: This component can separate the MPT data based on quality. Output given to other functions
 	* Side effects: none
 
-# TrackONautsVis.py
+#### TrackONautsVis.py
 * position_plot
 	* Function that plots scatter of particle position and color code based on quality
 	* Inputs:
@@ -102,7 +102,7 @@
 	* Connections: this component will read in the feature data in the form of a dataframe
 	* Side effects: none
 
-# video_quality_map.py
+#### video_quality_map.py
 * merge_data:
 	* Function to extract quality information from Data Quality Analyzer (data_separation.py), and merge into the corresponding msd data.
 	* Inputs:
@@ -148,76 +148,76 @@
 	* Connections: using quality_data from merge_data
 	* Side effects: None
 
-TrackONautsStats.py
-corr_rowi_rowj
-Pearson correlation between row_i and row_j
-Inputs:
-row_i, row_j : pd.Series
-row of data from dataframe, represented as a pandas series
-Outputs:
-corr_ij : float
-Pearson correlation of row_i to row_j
-Connections: receives input data from corr_rowi_vs_all, gives output data to corr_rowi_vs_all
-Side effects: ValueError if one of the rows is all zeros
-corr_rowi_vs_all
-Vector of Pearson correlations for each row against row_i
-Inputs:
-row_i : pd.Series
-row of data from dataframe, represented as a pandas series
-dataframe : pd.DataFrame
-dataframe containing data of interest
-Outputs:
-corr_to_i : list
-list of Pearson correlation values stored as float values
-Connections: receives data from corr_rowi_rowj, receives input data from pairwise_correlation, gives output data to pairwise_correlation
-Side effects: see corr_rowi_rowj
-pairwise_correlation
-Pairwise Pearson correlation of all rows, plus conversion back to dataframe. If issues arise, might need to transpose dataframe.
-Inputs:
-dataframe : pd.DataFrame
-dataframe containing data of interest
-Outputs:
-corr_df = pd.DataFrame
-pandas dataframe containing all pairwise Pearson correlation values
-Connections: Can input numerical only dataframes, gives input data to corr_rowi_vs_all, receives data from corr_rowi_vs_all
-Side effects: see corr_rowi_rowj
-feature_descriptive_statistics	
-This function pulls the descriptive statistics from given features. Input the features as a list of str. Can use "all_features" to run descriptive statistics on all features without needing to make a long list of names. Quantiles are disabled automatically. To use, make separate variables for each desired quantile and append.
-Inputs:
-dataframe : pd.DataFrame
-Dataframe containing data of interest
-features : list of str, or str
-list of strings which are the features stored as column names in the data frame. Can use "all_features" to run all feature columns
-Outputs:
-feat_descriptive_statistics_df : pd.DataFrame
-Pandas dataframe of the descriptive statistics as columns and features as rows
-Connections: Can receive numerical only dataframes, output data given to multi_df_feat_descriptive_statistics, can receive inputs from multi_df_feat_descriptive_statistics
-Side effects: none
-multi_df_feat_descriptive_statistics
-This function takes an input dictionary of dataframes and a list of features str to automatically run multiple dataframes through the feature descriptive statistics, returning a dictionary with the same keys. For running statistics on all features use "all_features".
-Inputs:
-dataframes : dict
-dictionary of dataframes containing data of interest
-features : list of str, or str
-list of strings which are the features stored as column names in the data frame. Can use "all_features" to run all feature columns
-Outputs:
-dfs_descriptive_statistics : dict
-dictionary of dataframes containing descriptive statistics of specified features. Utilizes the same keys as the input dataframe dictionary
-Connections: Can receive numerical only dataframes, output data received from feature_descriptive_statistics, gives inputs to feature_descriptive_statistics
-Side effects: none
-feature_outliers
-Rapid calculation of outliers of specified feature data within a dataframe. Has the options of STD multiplier and IQR for selecting an outlier selection parameter.
-Inputs:
-dataframe : pd.DataFrame
-dataframe containing data of interest
-features : list of str, or str
-list of strings which are the features stored as column names in the data frame. Can use the "all_features" string to run all features.
-outlier_method : str
-either "STD multiplier" or "IQR" to specify method of determining outlier cutoff. "STD multiplier" will prompt user to enter a float value to use as a multiplier of the standard deviation.
-Outputs:
-feature_outliers_dict : dict
-dictionary containing lists of found outliers above and below selected cutoff for specified features
-Connections: Can receive numerical only dataframes
-Side effects: none
+#### TrackONautsStats.py
+* corr_rowi_rowj
+	* Pearson correlation between row_i and row_j
+	* Inputs:
+		* row_i, row_j : pd.Series
+		* row of data from dataframe, represented as a pandas series
+	* Outputs:
+		* corr_ij : float
+			* Pearson correlation of row_i to row_j
+	* Connections: receives input data from corr_rowi_vs_all, gives output data to corr_rowi_vs_all
+	* Side effects: ValueError if one of the rows is all zeros
+* corr_rowi_vs_all
+	* Vector of Pearson correlations for each row against row_i
+	* Inputs:
+		* row_i : pd.Series
+			* row of data from dataframe, represented as a pandas series
+		* dataframe : pd.DataFrame
+			* dataframe containing data of interest
+	* Outputs:
+		* corr_to_i : list
+			* list of Pearson correlation values stored as float values
+	* Connections: receives data from corr_rowi_rowj, receives input data from pairwise_correlation, gives output data to pairwise_correlation
+	* Side effects: see corr_rowi_rowj
+* pairwise_correlation
+	* Pairwise Pearson correlation of all rows, plus conversion back to dataframe. If issues arise, might need to transpose dataframe.
+	* Inputs:
+		* dataframe : pd.DataFrame
+			* dataframe containing data of interest
+	* Outputs:
+		* corr_df = pd.DataFrame
+			* pandas dataframe containing all pairwise Pearson correlation values
+	* Connections: Can input numerical only dataframes, gives input data to corr_rowi_vs_all, receives data from corr_rowi_vs_all
+	* Side effects: see corr_rowi_rowj
+* feature_descriptive_statistics	
+	* This function pulls the descriptive statistics from given features. Input the features as a list of str. Can use "all_features" to run descriptive statistics on all features without needing to make a long list of names. Quantiles are disabled automatically. To use, make separate variables for each desired quantile and append.
+	* Inputs:
+		* dataframe : pd.DataFrame
+			* Dataframe containing data of interest
+		* features : list of str, or str
+			* list of strings which are the features stored as column names in the data frame. Can use "all_features" to run all feature columns
+	* Outputs:
+		* feat_descriptive_statistics_df : pd.DataFrame
+			* Pandas dataframe of the descriptive statistics as columns and features as rows
+	* Connections: Can receive numerical only dataframes, output data given to multi_df_feat_descriptive_statistics, can receive inputs from multi_df_feat_descriptive_statistics
+	* Side effects: none
+* multi_df_feat_descriptive_statistics
+	* This function takes an input dictionary of dataframes and a list of features str to automatically run multiple dataframes through the feature descriptive statistics, returning a dictionary with the same keys. For running statistics on all features use "all_features".
+	* Inputs:
+		* dataframes : dict
+			* dictionary of dataframes containing data of interest
+		* features : list of str, or str
+			* list of strings which are the features stored as column names in the data frame. Can use "all_features" to run all feature columns
+	* Outputs:
+		* dfs_descriptive_statistics : dict
+			* dictionary of dataframes containing descriptive statistics of specified features. Utilizes the same keys as the input dataframe dictionary
+	* Connections: Can receive numerical only dataframes, output data received from feature_descriptive_statistics, gives inputs to feature_descriptive_statistics
+	* Side effects: none
+* feature_outliers
+	* Rapid calculation of outliers of specified feature data within a dataframe. Has the options of STD multiplier and IQR for selecting an outlier selection parameter.
+	* Inputs:
+		* dataframe : pd.DataFrame
+			* dataframe containing data of interest
+		* features : list of str, or str
+			* list of strings which are the features stored as column names in the data frame. Can use the "all_features" string to run all features.
+		* outlier_method : str
+			* either "STD multiplier" or "IQR" to specify method of determining outlier cutoff. "STD multiplier" will prompt user to enter a float value to use as a multiplier of the standard deviation.
+	* Outputs:
+		* feature_outliers_dict : dict
+			* dictionary containing lists of found outliers above and below selected cutoff for specified features
+	* Connections: Can receive numerical only dataframes
+	* Side effects: none
 
 
