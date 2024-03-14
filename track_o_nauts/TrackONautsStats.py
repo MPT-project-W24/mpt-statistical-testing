@@ -16,8 +16,8 @@ def corr_rowi_rowj(row_i, row_j):
         corr_ij : float
             Pearson correlation of row_i to row_j
     """
-    if row_i.any() == False or row_j.any() == False:
-        raise Exception("A row is all zeros and does not work with .corr")
+    if not row_i.any() or not row_j.any():
+        raise ValueError("One of the rows contains all zeros and cannot be used with .corr")
     else:
         corr_ij = row_i.corr(row_j)
         return corr_ij
