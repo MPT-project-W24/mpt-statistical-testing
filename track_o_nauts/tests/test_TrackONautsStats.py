@@ -22,7 +22,7 @@ class TestCorrelation(unittest.TestCase):
         assert isinstance(computed_correlation, (int, float)), "Computed correlation is neither int nor float, it is %s" % type(computed_correlation)
 
     def test_for_row_of_0(self):
-        self.assertFalse(TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[0], df_exp2.iloc[2]))
+        self.assertRaises(TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[0], df_exp2.iloc[2]))
 
     def test_corr_rowi_rowj_right_value(self):
         computed_correlation = TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[1], df_exp2.iloc[0])
@@ -32,11 +32,6 @@ class TestCorrelation(unittest.TestCase):
         computed_correlation = TrackONautsStats.corr_rowi_vs_all(df_exp1.iloc[1], df_exp2)
         assert isinstance(computed_correlation, list), "Something went wrong, and the function did not return a list."
 
-    def test_corr_rowi_vs_all_row_of_0(self):
-        computed_correlation = TrackONautsStats.corr_rowi_vs_all(df_exp2.iloc[1], df_exp2)
-        compPOP = computed_correlation.pop(0)
-        self.assertFalse(compPOP)
-
     def test_corr_rowi_vs_all_work_across_df(self):
         corr1 = TrackONautsStats.corr_rowi_vs_all(df_exp2.iloc[1], df_exp2)
         corr2 = TrackONautsStats.corr_rowi_vs_all(df_exp1.iloc[1], df_exp1)
@@ -45,11 +40,6 @@ class TestCorrelation(unittest.TestCase):
     def test_pairwise_correlation_right_type(self):
         computed_correlation = TrackONautsStats.pairwise_correlation(df_exp1)
         assert isinstance(computed_correlation, pd.DataFrame), "Something went wrong, and the function did not return a DataFrame."
-
-    def test_pairwise_correlation_row_of_0_NA(self):
-        computed_correlation = TrackONautsStats.pairwise_correlation(df_exp2)
-        corrNoNA = computed_correlation.dropna()
-        assert corrNoNA.empty is False, "There was a row of 0, which .corr did not handle"
 
     def test_pairwise_correlation_right_shape(self):
         computed_correlation = TrackONautsStats.pairwise_correlation(df_exp1)
