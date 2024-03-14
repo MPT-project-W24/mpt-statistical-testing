@@ -11,4 +11,4 @@ The Track-o-Nauts Python Packages run in Python environments, and require Pandas
 * TrackONautsStats.py - contains functions to rapidly run statistical methods on dataframes. V1.0 contains Pearson pairwise correlation, descriptive statistics, and outlier identification
 
 ### How to use
-Functions from the .py files can be imported and utilized in Jupyter notebooks and Python scripts. Example use cases are available in the 'Notebooks' directory.
+Functions from the .py files can be imported and utilized in Jupyter notebooks and Python scripts. Example use cases are available in the `Notebooks` directory.
