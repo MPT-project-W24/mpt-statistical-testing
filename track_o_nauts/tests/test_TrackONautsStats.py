@@ -22,8 +22,9 @@ class TestCorrelation(unittest.TestCase):
         assert isinstance(computed_correlation, (int, float)), "Computed correlation is neither int nor float, it is %s" % type(computed_correlation)
 
     def test_for_row_of_0(self):
-        with self.assertRaises(Exception):
+        with self.assertRaises(Exception) as context:
             TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[0], df_exp2.iloc[2])
+        self.assertTrue("Not catching zeros" in context.exception)
 
     def test_corr_rowi_rowj_right_value(self):
         computed_correlation = TrackONautsStats.corr_rowi_rowj(df_exp2.iloc[1], df_exp2.iloc[0])
@@ -66,7 +67,8 @@ class TestStatistics(unittest.TestCase):
 
     def test_feature_descriptive_statistics_output3(self):
         stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1, ["B"])
-        self.assertTrue(isinstance(type(stats_df["mean"].iloc[0]), np.float64))
+        self.assertTrue(type(stats_df["mean"].iloc[0]) == np.float64)
+        # isinstance(type(stats_df["mean"].iloc[0]), np.float64)
 
     def test_feature_descriptive_statistics_output4(self):
         stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1, ["A"])
