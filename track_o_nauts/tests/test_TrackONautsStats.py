@@ -68,6 +68,7 @@ class TestStatistics(unittest.TestCase):
     def test_feature_descriptive_statistics_output3(self):
         stats_df = TrackONautsStats.feature_descriptive_statistics(dummy_df1, ["B"])
         self.assertTrue(type(stats_df["mean"].iloc[0]) == np.float64)
+        # this test refused to work with isinstance() and .dtype
         # isinstance(type(stats_df["mean"].iloc[0]), np.float64)
 
     def test_feature_descriptive_statistics_output4(self):
